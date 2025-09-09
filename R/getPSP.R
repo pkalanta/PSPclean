@@ -121,13 +121,14 @@ getPSP <- function(PSPdataTypes, destinationPath, forGMCS = FALSE,
 
     PSPmeasure <- rbindlist(PSPmeasures, fill = TRUE)
     PSPplot <- rbindlist(PSPplots, fill = TRUE)
+
     #add Parvin's cleaning functions here:
     #first one : Identifies statistical outliers in key variables (e.g., DBH)
-    #  cleaningData1 <- detect_dbh_outliers(Trees = PSPmeasure)
-    #  PSPmeasure <- cleaningData1$Trees
-    #  #View outliers
-    #  outliers <- PSPmeasure[is_outlier_z == TRUE]
-    # PSPplot <- PSPplot[OrigPlotID1 %in% cleaningData1$OrigPlotID1s,]
+    cleaningData1 <- detect_dbh_outliers(Trees = PSPmeasure)
+    PSPmeasure <- cleaningData1$Trees
+    #View outliers
+    outliers <- PSPmeasure[is_outlier_z == TRUE]
+    PSPplot <- PSPplot[OrigPlotID1 %in% cleaningData1$OrigPlotID1s,]
 
     #second one : Identify and resolves all inconsistencies, when a tree number in a Plot is linked to multiple Species Names
     cleaningData2 <- treenum_to_multiplePSP(Trees = PSPmeasure)
